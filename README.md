@@ -1,6 +1,7 @@
 # 🏈 NFL Play-Calling Predictor: Run vs. Pass (DSC 148)
 
-**🌟 <a href="https://cadenpascual-nfl-play-predictor-demoapp-dfolai.streamlit.app/" target="_blank" rel="noopener noreferrer">Try the Interactive Web Demo Here!</a>** 📄 **<a href="./docs/Final_Report.pdf" target="_blank" rel="noopener noreferrer">Read our Full ACM Final Report Here</a>** *(Note: Update this path to where your PDF is saved)*
+**🌟 <a href="https://cadenpascual-nfl-play-predictor-demoapp-dfolai.streamlit.app/" target="_blank" rel="noopener noreferrer">Try the Interactive Web Demo Here!</a>** 
+📄 **<a href="./docs/Final_Report.pdf" target="_blank" rel="noopener noreferrer">Read our Full ACM Final Report Here</a>**
 
 ## 📌 Project Overview
 This project applies data mining and machine learning techniques to predict NFL offensive play calls (Run vs. Pass). Using modern NFL play-by-play data, we aim to uncover the underlying patterns in offensive play-calling behavior across different game situations. 
