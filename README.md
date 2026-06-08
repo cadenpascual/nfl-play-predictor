@@ -23,8 +23,8 @@ nfl-play-predictor/
 │
 ├── notebooks/                   # Jupyter Notebooks for execution
 │   ├── 01_EDA.ipynb             # Data cleaning & Exploratory Data Analysis
-│   ├── 02_Modeling.ipynb        # Baseline, Advanced Models & Hyperparameter Tuning
-│   └── 03_Evaluation.ipynb      # Final testing, Ablation, and Case Studies
+│   ├── 02_modeling.ipynb        # Baseline, Advanced Models & Hyperparameter Tuning
+│   └── 03_final_eval.ipynb      # Final testing, Ablation, and Case Studies
 │
 ├── models/                      # Pre-trained model artifacts
 │   └── lgbm_runpass.joblib      # Serialized LightGBM model
