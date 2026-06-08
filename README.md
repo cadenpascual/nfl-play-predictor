@@ -69,7 +69,7 @@ streamlit run demo/app.py
 *The app will automatically open in your default web browser at `http://localhost:8501`.*
 
 ## 👥 Authors
-Caden Pascual - DSC 148 Final Project, University of California, San Diego (UCSD)
+Caden Pascual, Rishil Chintalapati - University of California, San Diego (UCSD)
 
 ## 📚 References
 - NFL play-by-play data: <a href="https://www.nflfastr.com/" target="_blank" rel="noopener noreferrer">nflfastR</a> / <a href="https://www.kaggle.com/datasets/nflverse/nfl-play-by-play-data" target="_blank" rel="noopener noreferrer">Kaggle</a>
