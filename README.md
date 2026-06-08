@@ -1,13 +1,11 @@
 # 🏈 NFL Play-Calling Predictor: Run vs. Pass (DSC 148)
 
-<a href="https://cadenpascual-nfl-play-predictor-demoapp-dfolai.streamlit.app/" target="_blank" rel="noopener noreferrer">Try the Interactive Web Demo Here!</a>
-
- 📄 **[Read our Full ACM Final Report Here](./docs/Final_Report.pdf)** *(Note: Update this path to where your PDF is saved)*
+**🌟 <a href="https://cadenpascual-nfl-play-predictor-demoapp-dfolai.streamlit.app/" target="_blank" rel="noopener noreferrer">Try the Interactive Web Demo Here!</a>** 📄 **<a href="./docs/Final_Report.pdf" target="_blank" rel="noopener noreferrer">Read our Full ACM Final Report Here</a>** *(Note: Update this path to where your PDF is saved)*
 
 ## 📌 Project Overview
 This project applies data mining and machine learning techniques to predict NFL offensive play calls (Run vs. Pass). Using modern NFL play-by-play data, we aim to uncover the underlying patterns in offensive play-calling behavior across different game situations. 
 
-This repository contains the codebase, interactive web application, and documentation for our **DSC 148** final project. For a full breakdown of our methodology, literature review, and comprehensive results, please refer to our full report linked above.
+This repository contains the codebase, interactive web application, and documentation for our **DSC 148** final project. For a full breakdown of our methodology, literature review, and comprehensive results (including ablation and case studies), please refer to our full report linked above.
 
 ## 📂 Repository Structure
 
@@ -25,8 +23,8 @@ nfl-play-predictor/
 │
 ├── notebooks/                   # Jupyter Notebooks for execution
 │   ├── 01_EDA.ipynb             # Data cleaning & Exploratory Data Analysis
-│   ├── 02_modeling.ipynb        # Baseline, Advanced Models & Hyperparameter Tuning
-│   └── 03_final_eval.ipynb      # Final testing, Ablation, and Case Studies
+│   ├── 02_Modeling.ipynb        # Baseline, Advanced Models & Hyperparameter Tuning
+│   └── 03_Evaluation.ipynb      # Final testing, Ablation, and Case Studies
 │
 ├── models/                      # Pre-trained model artifacts
 │   └── lgbm_runpass.joblib      # Serialized LightGBM model
@@ -42,13 +40,13 @@ nfl-play-predictor/
 ```
 
 ## 📊 The Dataset & Task
-We utilized historical NFL play-by-play data sourced via `nflfastR` / Kaggle. The dataset contains over 150,000 clean run/pass plays from the 2022-2024 seasons for training, and we utilized the 2025 season as an unseen testing set to prevent data leakage. 
+We utilized historical NFL play-by-play data sourced via <a href="https://www.nflfastr.com/" target="_blank" rel="noopener noreferrer">nflfastR</a> / <a href="https://www.kaggle.com/datasets/nflverse/nfl-play-by-play-data" target="_blank" rel="noopener noreferrer">Kaggle</a>. The dataset contains over 150,000 clean run/pass plays from the 2022-2024 seasons for training, and we utilized the 2025 season as an unseen testing set to prevent data leakage. 
 
 Our primary predictive task is a binary classification problem: **Given a pre-snap game situation, predict whether the offensive team will execute a RUN or PASS play.** We evaluated our LightGBM and baseline Logistic Regression models using Accuracy, Precision, Recall, and F1 Scores. 
 
 ## 🎮 Interactive Streamlit Demo
 You can test our predictive models in real-time directly in your browser:
-👉 **[Launch the NFL Play Predictor](https://cadenpascual-nfl-play-predictor-demoapp-dfolai.streamlit.app/)**
+👉 **<a href="https://cadenpascual-nfl-play-predictor-demoapp-dfolai.streamlit.app/" target="_blank" rel="noopener noreferrer">Launch the NFL Play Predictor</a>**
 
 The application provides two prediction points:
 - **Before Lineup (Default):** Uses only pre-snap game state (down, distance, score, clock, field position, Vegas market info).
@@ -74,6 +72,6 @@ streamlit run demo/app.py
 Caden Pascual - DSC 148 Final Project, University of California, San Diego (UCSD)
 
 ## 📚 References
-- NFL play-by-play data: [nflfastR](https://www.nflfastr.com/) / [Kaggle](https://www.kaggle.com/datasets/nflverse/nfl-play-by-play-data)
-- LightGBM: [Documentation](https://lightgbm.readthedocs.io/)
-- Streamlit: [Documentation](https://streamlit.io/docs)
+- NFL play-by-play data: <a href="https://www.nflfastr.com/" target="_blank" rel="noopener noreferrer">nflfastR</a> / <a href="https://www.kaggle.com/datasets/nflverse/nfl-play-by-play-data" target="_blank" rel="noopener noreferrer">Kaggle</a>
+- LightGBM: <a href="https://lightgbm.readthedocs.io/" target="_blank" rel="noopener noreferrer">Documentation</a>
+- Streamlit: <a href="https://streamlit.io/docs" target="_blank" rel="noopener noreferrer">Documentation</a>
