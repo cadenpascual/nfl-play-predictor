@@ -5,7 +5,7 @@
 ## 📌 Project Overview
 This project applies data mining and machine learning techniques to predict NFL offensive play calls (Run vs. Pass). Using modern NFL play-by-play data, we aim to uncover the underlying patterns in offensive play-calling behavior across different game situations. 
 
-This repository contains the codebase, interactive web application, and documentation for our **DSC 148** final project. For a full breakdown of our methodology, literature review, and comprehensive results (including ablation and case studies), please refer to our full report linked above.
+This repository contains the codebase, interactive web application, and documentation for our **DSC 148** final project. For a full breakdown of our methodology, literature review, and comprehensive results, please refer to our full report linked above.
 
 ## 📂 Repository Structure
 
