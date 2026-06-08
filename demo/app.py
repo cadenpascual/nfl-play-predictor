@@ -21,6 +21,8 @@ import sys
 import joblib
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -47,6 +49,52 @@ def quarter_clock_to_seconds(qtr, minutes, seconds):
     game_remaining = max(0, 3600 - elapsed)
     return float(half_remaining), float(game_remaining)
 
+def draw_field(yardline_100, ydstogo):
+    """Draws a 2D football field with LOS, 1st down line, and direction."""
+    # Set the outer figure background to black
+    fig, ax = plt.subplots(figsize=(10, 2.5), facecolor='black')
+    
+    # NFL field dimensions
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 53.3)
+    ax.axis('off')
+
+    # Draw the green grass
+    field = patches.Rectangle((0, 0), 100, 53.3, linewidth=2, edgecolor='white', facecolor='#2c5e1a')
+    ax.add_patch(field)
+
+    # Draw the yard lines
+    for i in range(10, 100, 10):
+        ax.axvline(i, color='white', alpha=0.4, linewidth=1.5, zorder=1)
+        yard_num = i if i <= 50 else 100 - i
+        ax.text(i, 2, str(yard_num), color='white', alpha=0.6, ha='center', va='bottom', fontsize=10)
+        ax.text(i, 51.3, str(yard_num), color='white', alpha=0.6, ha='center', va='top', fontsize=10, rotation=180)
+
+    # Calculate Lines
+    # Left side (0) is own end zone, Right side (100) is opponent end zone
+    los = 100 - yardline_100 
+    first_down = min(100, los + ydstogo) # Caps at the goal line for goal-to-go situations
+    
+    # Draw the 1st Down Line (Yellow)
+    ax.axvline(first_down, color='#FFFF00', linewidth=3, zorder=2)
+    
+    # Draw the Line of Scrimmage (Blue)
+    ax.axvline(los, color='#0047AB', linewidth=3, zorder=2) 
+    
+    # Draw a Direction Arrow
+    arrow_length = min(10, first_down - los + 2) if ydstogo > 0 else 5
+    ax.annotate('', xy=(los + arrow_length, 26.65), xytext=(los, 26.65),
+                arrowprops=dict(facecolor='white', edgecolor='black', width=3, headwidth=10), zorder=3)
+
+    # Draw the football on top of the arrow
+    ax.plot(los, 26.65, marker='D', color='#6e3b22', markersize=8, markeredgecolor='white', zorder=4)
+    
+    # Endzone labels (White text for the black background)
+    ax.text(-2, 26.65, "OWN\nENDZONE", color='white', ha='right', va='center', fontweight='bold')
+    ax.text(102, 26.65, "OPP\nENDZONE", color='white', ha='left', va='center', fontweight='bold')
+
+    plt.tight_layout()
+    return fig
 
 def main():
     st.title("NFL Run vs. Pass Predictor")
@@ -143,6 +191,8 @@ def main():
     call = "PASS" if pass_prob >= 0.5 else "RUN"
 
     st.subheader("Prediction")
+    field_fig = draw_field(yardline_100, ydstogo)
+    st.pyplot(field_fig)
     c1, c2 = st.columns([1, 2])
     with c1:
         color = "red" if call == "PASS" else "green"
