@@ -1,31 +1,40 @@
 # 🏈 NFL Play-Calling Predictor: Run vs. Pass (DSC 148)
 
 ## 📌 Project Overview
-This project applies data mining and machine learning techniques to predict NFL offensive play calls (Run vs. Pass). Using modern NFL play-by-play data, we aim to uncover the underlying patterns in coaching decisions based on game context (down, distance, score differential, and field position). 
+This project applies data mining and machine learning techniques to predict NFL offensive play calls (Run vs. Pass). Using modern NFL play-by-play data, we aim to uncover the underlying patterns in offensive play-calling behavior across different game situations.
 
-This repository was created as the final project for **DSC 148**, fulfilling all requirements for exploratory data analysis, baseline modeling, advanced predictive modeling, and parameter sensitivity.
+This repository was created as the final project for **DSC 148**, fulfilling all requirements for exploratory data analysis, baseline modeling, advanced predictive modeling, and parameter sensitivity analysis.
 
 ## 📂 Repository Structure
-To maintain a professional and reproducible workflow, our code and data are separated into distinct directories:
 
-` ` `text
+```text
 nfl-play-predictor/
 │
-├── data/                      # Data folder (ignored in git)
+├── .devcontainer/              # Development container configuration
+│
+├── data/                        # Data folder (ignored in git)
 │   ├── play_by_play_2022.parquet
 │   ├── play_by_play_2023.parquet
 │   ├── play_by_play_2024.parquet
 │   └── play_by_play_2025.parquet
 │
-├── notebooks/                 # Jupyter Notebooks for execution
-│   ├── 01_EDA.ipynb           # Data cleaning & Exploratory Data Analysis
-│   ├── 02_Modeling.ipynb      # Baseline, Advanced Models & Hyperparameter Tuning
-│   └── 03_Evaluation.ipynb    # Final testing on unseen 2025 data
+├── notebooks/                   # Jupyter Notebooks for execution
+│   ├── 01_EDA.ipynb             # Data cleaning & Exploratory Data Analysis
+│   ├── 02_Modeling.ipynb        # Baseline, Advanced Models & Hyperparameter Tuning
+│   └── 03_Evaluation.ipynb      # Final testing on unseen 2025 data
 │
-├── README.md                  # Project documentation
-└── requirements.txt           # Required Python packages
-` ` `
-*(Note: Remove the spaces between the backticks above when pasting)*
+├── models/                      # Pre-trained model artifacts
+│   └── lgbm_runpass.joblib      # Serialized LightGBM model
+│
+├── src/                         # Source code modules
+│   └── features.py              # Feature engineering pipeline
+│
+├── demo/                        # Streamlit interactive demo application
+│   └── app.py                   # Streamlit app for predictions
+│
+├── README.md                    # Project documentation
+└── requirements.txt             # Required Python packages
+```
 
 ## 📊 The Dataset
 We utilize historical NFL play-by-play data sourced via `nflfastR` / Kaggle. The data is stored in `.parquet` format for highly efficient columnar reading and strict data-type preservation.
@@ -39,26 +48,74 @@ To prevent data leakage and simulate a real-world predictive task, we utilized a
 ## 🚀 Workflow & Methodology
 
 ### 1. Exploratory Data Analysis (EDA)
-In `01_EDA.ipynb`, we explored the training dataset to uncover play-calling tendencies. Key features analyzed include `down`, `ydstogo`, `yardline_100`, and `score_differential`. We generated visualizations (boxplots, bar charts) to highlight the correlation between game states and pass probabilities.
+In `notebooks/01_EDA.ipynb`, we explored the training dataset to uncover play-calling tendencies. Key features analyzed include `down`, `ydstogo`, `yardline_100`, and `score_differential`. We generated visualizations to understand the distribution of run vs. pass plays across different scenarios.
 
 ### 2. Modeling & Parameter Sensitivity
-In `02_Modeling.ipynb`, we trained two levels of machine learning models:
+In `notebooks/02_Modeling.ipynb`, we trained two levels of machine learning models:
 * **Baseline Model:** Logistic Regression to establish our baseline accuracy.
-* **Advanced Model:** Random Forest / Gradient Boosting (XGBoost) to capture non-linear relationships in the sports data.
-* **Parameter Sensitivity:** We utilized cross-validation and Grid Search to tune hyperparameters (e.g., `max_depth`, `n_estimators`). Model performance across different parameter states is explicitly visualized in this notebook.
+* **Advanced Model:** Random Forest / Gradient Boosting (LightGBM) to capture non-linear relationships in the sports data.
+* **Parameter Sensitivity:** We utilized cross-validation and Grid Search to tune hyperparameters (e.g., `max_depth`, `n_estimators`). Model performance across different parameter states is explicitly evaluated to understand sensitivity.
 
 ### 3. Final Evaluation
-In `03_Evaluation.ipynb`, our best-tuned model is evaluated against the unseen 2025 test dataset. We generate a final Confusion Matrix, calculate Precision/Recall/F1 scores, and plot Feature Importances to determine which game-state variables drove the model's decisions.
+In `notebooks/03_Evaluation.ipynb`, our best-tuned model is evaluated against the unseen 2025 test dataset. We generate a final Confusion Matrix, calculate Precision/Recall/F1 scores, and plot Feature Importance rankings.
 
 ## 💻 Setup & Installation
 To run this project locally, clone the repository and install the required dependencies:
 
-` ` `bash
+```bash
 # Clone the repo
-git clone https://github.com/YourUsername/nfl-play-predictor.git
+git clone https://github.com/cadenpascual/nfl-play-predictor.git
 cd nfl-play-predictor
 
 # Install dependencies
 pip install -r requirements.txt
-` ` `
-*(Note: Remove the spaces between the backticks above when pasting)*
+```
+
+## 🎮 Running the Streamlit Demo
+
+The interactive Streamlit demo allows you to make predictions for any NFL game situation. The app provides two prediction points:
+- **Before Lineup (Default):** Uses only pre-snap game state (down, distance, score, clock, field position, Vegas market info)
+- **After Lineup:** Additionally includes pre-snap formation cues (shotgun, no-huddle) for more accurate predictions
+
+### Prerequisites
+Before running the demo, ensure:
+1. All dependencies are installed: `pip install -r requirements.txt`
+2. The trained model exists: `models/lgbm_runpass.joblib` (generated by running `notebooks/02_Modeling.ipynb`)
+
+### Running the App
+```bash
+streamlit run demo/app.py
+```
+
+The app will open in your default web browser at `http://localhost:8501`. You can then:
+1. Adjust game situation parameters using the interactive controls in the sidebar
+2. Toggle between "Before lineup" and "After lineup" prediction modes
+3. View the model's prediction and pass probability
+4. Inspect engineered features used by the model in the expandable section
+
+### Demo Interface Guide
+- **Game Situation:** Set the down, yards to go, field position, quarter, time, and score
+- **Prediction Point:** Choose whether to predict before or after the offense lines up
+- **Pre-snap Formation (After Lineup only):** Optionally select shotgun or no-huddle formations
+- **Vegas Market (Optional):** Input betting market data for additional context
+- **Prediction Output:** View the predicted play call (RUN or PASS) and confidence probability
+
+## 📈 Key Results
+The advanced LightGBM model demonstrates strong predictive performance on the unseen 2025 test set, significantly outperforming the baseline Logistic Regression model. Feature importance analysis reveals that down, yards to go, and field position are the strongest predictors of play-calling behavior.
+
+## 📝 Project Requirements
+This project fulfills all DSC 148 requirements:
+- ✅ Exploratory Data Analysis with visualizations
+- ✅ Baseline and advanced machine learning models
+- ✅ Hyperparameter tuning via cross-validation and grid search
+- ✅ Parameter sensitivity analysis
+- ✅ Evaluation on held-out test set
+- ✅ Interactive demo application
+
+## 👥 Authors
+Caden Pascual - DSC 148 Final Project
+
+## 📚 References
+- NFL play-by-play data: [nflfastR](https://www.nflfastr.com/) / [Kaggle](https://www.kaggle.com/datasets/nflverse/nfl-play-by-play-data)
+- LightGBM: [Documentation](https://lightgbm.readthedocs.io/)
+- Streamlit: [Documentation](https://streamlit.io/docs)
